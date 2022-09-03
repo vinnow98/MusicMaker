@@ -3,10 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"music/rawMusicData"
 	"os"
 	"strings"
 
-	_ "github.com/MusicMaker/rawMusicData"
+	_ "github.com/vinnow98/MusicMaker/rawMusicData"
 )
 
 func main() {
