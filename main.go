@@ -12,7 +12,7 @@ func main() {
 	//fmt.Println("Type in the lyrics")
 	//in := bufio.NewReader(os.Stdin)
 	//line, _ := in.ReadString('\n')
-	line := "the lazy dog jumps over the big brown dog"
+	line := "the La zy Dog Jumps o Ver the Big Brown Dog"
 	fmt.Println("length of lyric syllables")
 	fmt.Println(length(line))
 	characteristic := 1
@@ -24,6 +24,7 @@ func main() {
 
 	fmt.Println("Final Output")
 	fmt.Println(logic.FinalOutput)
+	logic.MainRhythmLogic()
 
 }
 

@@ -3,6 +3,8 @@ package logic
 import (
 	"fmt"
 	"math/rand"
+	"sort"
+	"strings"
 	"time"
 )
 
@@ -51,9 +53,106 @@ func Neutral() int {
 //1:   {5, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1},
 //1:   {3,1,2}
 
+func MainRhythmLogic() {
+	line := "the La zy Dog Jumps o Ver the Big Brown Dog"
+	sliceLine := strings.Split(line, " ")
+	var binaryLine []int
+	for _, element := range sliceLine {
+		if strings.ToUpper(element[0:1]) == element[0:1] {
+			binaryLine = append(binaryLine, 1)
+		} else {
+			binaryLine = append(binaryLine, 0)
+		}
+	}
+
+	// let's say it's in 4/4
+	noOfBeats := 4
+	rando := 0
+	for _, element := range binaryLine {
+		// fmt.Println(element)
+		if element != 0 {
+			fmt.Println(rando)
+			//newSlice is when everytime there is a 1,
+			//I want to check for all previous 0s
+			// so like [0 0 1]
+			// or like [0 0 5]
+			var newSlice []int
+			lengthOfArray := 0
+			for lengthOfArray < rando {
+				rand.Seed(time.Now().UnixNano())
+				newSlice = append(newSlice, rand.Intn(noOfBeats-1)+1)
+				newSlice = removeDuplicateValues(newSlice)
+				lengthOfArray = len(newSlice)
+
+			}
+			sort.Sort(sort.Reverse(sort.IntSlice(newSlice)))
+			fmt.Println(newSlice)
+			//reset the rando number
+			rando = 0
+		}
+		if element == 0 {
+			rando++
+		}
+	}
+}
+
+func removeDuplicateValues(intSlice []int) []int {
+	keys := make(map[int]bool)
+	list := []int{}
+
+	// If the key(values of the slice) is not equal
+	// to the already present value in new slice (list)
+	// then we append it. else we jump on another element.
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
+
+//func MainLogic() {
+//	//var outputRhythm []int
+//	line := "in the La zy Dog Jumps o Ver the Big Brown Dog"
+//	sliceLine := strings.Split(line, " ")
+//	//This is make a binary slice to show the position of capital syllables
+//	var binarySlice []int
+//	for i := range sliceLine {
+//		if strings.ToUpper(sliceLine[i][0:1]) != sliceLine[i][0:1] {
+//			binarySlice = append(binarySlice, 0)
+//		} else {
+//			binarySlice = append(binarySlice, 1)
+//		}
+//	}
+//	fmt.Println(binarySlice)
+//
+//	//for i, e := range sliceLine {
+//	//	if strings.ToUpper(e[0:1]) == e[0:1] {
+//	//		if outputRhythm != nil {
+//	//			if outputRhythm[0] == 6 {
+//	//
+//	//			}
+//	//		}
+//	//	} else {
+//	//		if outputRhythm == nil {
+//	//			outputRhythm = append(outputRhythm, 6)
+//	//		} else {
+//	//			if outputRhythm[i-1] == 1 {
+//	//				outputRhythm = append(outputRhythm, 2)
+//	//			} else {
+//	//				if outputRhythm[i-1] == 2 {
+//	//					outputRhythm = append(outputRhythm, 3)
+//	//				}
+//	//			}
+//	//		}
+//	//
+//	//	}
+//	//}
+//}
+
 // Based on important words
 //time signature :6/8 (Neutral)
-//4-5bars (random)
 //the La zy Dog Jumps o Ver the Big Brown Dog
 // 6 |1  2/3 4 | 1    2/3 4  5/6| 1   4   |  1
 //3/4
