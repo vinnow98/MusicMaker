@@ -3,7 +3,6 @@ package logic
 import (
 	"fmt"
 	"math/rand"
-	"sort"
 	"strings"
 	"time"
 )
@@ -64,53 +63,74 @@ func MainRhythmLogic() {
 			binaryLine = append(binaryLine, 0)
 		}
 	}
+	fmt.Println(binaryLine)
+	var FinalRhythmOutput []int
+	FinalRhythmOutput = append(FinalRhythmOutput, pickUpNote(binaryLine)...)
 
-	// let's say it's in 4/4
-	noOfBeats := 4
-	rando := 0
+	fmt.Println(FinalRhythmOutput)
+}
+
+func pickUpNote(binaryLine []int) []int {
+	noOfBeats := 6
+	zeroCount := 0
+	pickUpNote := []int{1, 2, 3, 4, 5, 6}
 	for _, element := range binaryLine {
-		// fmt.Println(element)
-		if element != 0 {
-			fmt.Println(rando)
-			//newSlice is when everytime there is a 1,
-			//I want to check for all previous 0s
-			// so like [0 0 1]
-			// or like [0 0 5]
-			var newSlice []int
-			lengthOfArray := 0
-			for lengthOfArray < rando {
-				rand.Seed(time.Now().UnixNano())
-				newSlice = append(newSlice, rand.Intn(noOfBeats-1)+1)
-				newSlice = removeDuplicateValues(newSlice)
-				lengthOfArray = len(newSlice)
-
-			}
-			sort.Sort(sort.Reverse(sort.IntSlice(newSlice)))
-			fmt.Println(newSlice)
-			//reset the rando number
-			rando = 0
-		}
 		if element == 0 {
-			rando++
+			zeroCount++
+		} else {
+			break
+		}
+		if element == 1 {
+			return nil
 		}
 	}
+	return pickUpNote[noOfBeats-zeroCount:]
 }
 
-func removeDuplicateValues(intSlice []int) []int {
-	keys := make(map[int]bool)
-	list := []int{}
+//	res1 := bytes.Replace(slice_1, []byte("E"), []byte("e"), 2)
+//for _, element := range binaryLine {
+//	// fmt.Println(element)
+//	if element != 0 {
+//		fmt.Println("This is rando number", rando)
+//		//newSlice is when everytime there is a 1,
+//		//I want to check for all previous 0s
+//		// so like [0 0 1]
+//		// or like [0 0 5]
+//		var newSlice []int
+//		lengthOfArray := 0
+//		for lengthOfArray < rando {
+//			rand.Seed(time.Now().UnixNano())
+//			newSlice = append(newSlice, rand.Intn(noOfBeats-1)+1)
+//			fmt.Println("This is the slice after append", newSlice)
+//			newSlice = removeDuplicateValues(newSlice)
+//			fmt.Println("This is the slice after delete dupls", newSlice)
+//			lengthOfArray = len(newSlice)
+//		}
+//		sort.Sort(sort.Reverse(sort.IntSlice(newSlice)))
+//		fmt.Println("This is the slice after reverse", newSlice)
+//		//reset the rando number
+//		rando = 0
+//	}
+//	if element == 0 {
+//		rando++
+//	}
+//}
 
-	// If the key(values of the slice) is not equal
-	// to the already present value in new slice (list)
-	// then we append it. else we jump on another element.
-	for _, entry := range intSlice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
-	}
-	return list
-}
+//func removeDuplicateValues(intSlice []int) []int {
+//	keys := make(map[int]bool)
+//	list := []int{}
+//
+//	// If the key(values of the slice) is not equal
+//	// to the already present value in new slice (list)
+//	// then we append it. else we jump on another element.
+//	for _, entry := range intSlice {
+//		if _, value := keys[entry]; !value {
+//			keys[entry] = true
+//			list = append(list, entry)
+//		}
+//	}
+//	return list
+//}
 
 //func MainLogic() {
 //	//var outputRhythm []int
