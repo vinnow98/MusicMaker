@@ -51,11 +51,12 @@ func Neutral() int {
 // Input the dummy data fromm the current psalms
 //1:   {5, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1},
 //1:   {3,1,2}
+var FinalRhythmOutput []int
+var line = "the La zy Dog Jumps o Ver the Big Brown Dog"
+var binaryLine []int
 
 func MainRhythmLogic() {
-	line := "the La zy Dog Jumps o Ver the Big Brown Dog"
 	sliceLine := strings.Split(line, " ")
-	var binaryLine []int
 	for _, element := range sliceLine {
 		if strings.ToUpper(element[0:1]) == element[0:1] {
 			binaryLine = append(binaryLine, 1)
@@ -64,7 +65,7 @@ func MainRhythmLogic() {
 		}
 	}
 	fmt.Println(binaryLine)
-	var FinalRhythmOutput []int
+
 	FinalRhythmOutput = append(FinalRhythmOutput, pickUpNote(binaryLine)...)
 
 	fmt.Println(FinalRhythmOutput)
@@ -84,7 +85,39 @@ func pickUpNote(binaryLine []int) []int {
 			return nil
 		}
 	}
+	binaryLine = binaryLine[zeroCount:]
+	fmt.Println(binaryLine)
 	return pickUpNote[noOfBeats-zeroCount:]
+}
+
+func importantNote(binaryLine []int) []int {
+	if binaryLine[0] == 1 {
+		if FinalOutput[len(FinalOutput)-1] == 6 {
+			FinalOutput = append(FinalOutput, 1)
+		}
+		noOfBeats := 6
+		oneCount := 0
+		for _, element := range binaryLine {
+			if element == 1 {
+				oneCount++
+			} else {
+				break
+			}
+			if element == 0 {
+				return nil
+			}
+		}
+		//binaryLine = binaryLine[zeroCount:]
+		//fmt.Println(binaryLine)
+		//return pickUpNote[noOfBeats-zeroCount:]
+	} else {
+		unimportantNotes()
+	}
+
+}
+
+func unimportantNotes() {
+
 }
 
 //	res1 := bytes.Replace(slice_1, []byte("E"), []byte("e"), 2)
