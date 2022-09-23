@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/MusicMaker.iml" filepath="$PROJECT_DIR$/.idea/MusicMaker.iml" />
+      <module fileurl="file://$USER_HOME$/GolandProjects/awesomeProject/autoMusic/.idea/autoMusic.iml" filepath="$USER_HOME$/GolandProjects/awesomeProject/autoMusic/.idea/autoMusic.iml" />
     </modules>
   </component>
 </project>
