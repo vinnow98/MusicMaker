@@ -65,13 +65,11 @@ func MainRhythmLogic() {
 		}
 	}
 	fmt.Println(binaryLine)
-
-	FinalRhythmOutput = append(FinalRhythmOutput, pickUpNote(binaryLine)...)
-
+	pickUpNote()
 	fmt.Println(FinalRhythmOutput)
 }
 
-func pickUpNote(binaryLine []int) []int {
+func pickUpNote() {
 	noOfBeats := 6
 	zeroCount := 0
 	pickUpNote := []int{1, 2, 3, 4, 5, 6}
@@ -82,38 +80,47 @@ func pickUpNote(binaryLine []int) []int {
 			break
 		}
 		if element == 1 {
-			return nil
+			return
 		}
 	}
 	binaryLine = binaryLine[zeroCount:]
 	fmt.Println(binaryLine)
-	return pickUpNote[noOfBeats-zeroCount:]
+	FinalRhythmOutput = append(FinalRhythmOutput, pickUpNote[noOfBeats-zeroCount:]...)
 }
 
-func importantNote(binaryLine []int) []int {
-	if binaryLine[0] == 1 {
-		if FinalOutput[len(FinalOutput)-1] == 6 {
-			FinalOutput = append(FinalOutput, 1)
-		}
-		noOfBeats := 6
-		oneCount := 0
-		for _, element := range binaryLine {
-			if element == 1 {
-				oneCount++
-			} else {
-				break
-			}
-			if element == 0 {
-				return nil
-			}
-		}
-		//binaryLine = binaryLine[zeroCount:]
-		//fmt.Println(binaryLine)
-		//return pickUpNote[noOfBeats-zeroCount:]
+func noteChecker() {
+	if len(binaryLine) == 1 {
+		FinalRhythmOutput = append(FinalRhythmOutput, 1)
+	} else if len(binaryLine) == 0 {
+		return
+	} else if binaryLine[0] == 1 {
+		importantNote()
 	} else {
 		unimportantNotes()
 	}
+}
 
+func importantNote() {
+	if FinalOutput[len(FinalOutput)-1] <= 4 {
+		FinalOutput = append(FinalOutput, 1)
+		binaryLine = binaryLine[1:]
+		noteChecker()
+	}
+	//noOfBeats := 6
+	oneCount := 0
+	for _, element := range binaryLine {
+		if element == 1 {
+			oneCount++
+		} else {
+			break
+		}
+		if element == 0 {
+			return
+		}
+	}
+	//binaryLine = binaryLine[zeroCount:]
+	//fmt.Println(binaryLine)
+	//return pickUpNote[noOfBeats-zeroCount:]
 }
 
 func unimportantNotes() {
