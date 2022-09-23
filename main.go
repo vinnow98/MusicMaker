@@ -15,16 +15,14 @@ func main() {
 	line := "the La zy Dog Jumps o Ver the Big Brown Dog"
 	fmt.Println("length of lyric syllables")
 	fmt.Println(length(line))
-	characteristic := 1
-	logic.Characteristics(characteristic)
-	numberOfNotes := 10
-	logic.FirstNote()
-	logic.FirstHalfNotes(numberOfNotes)
-	logic.LastNote()
-
+	//characteristic := 1
+	//logic.Characteristics(characteristic)
+	logic.MainMelodyLogic(length(line))
+	logic.MainRhythmLogic(line)
 	fmt.Println("Final Output")
-	fmt.Println(logic.FinalOutput)
-	logic.MainRhythmLogic()
+	fmt.Println(line)
+	fmt.Println("Melody:", logic.FinalMelodyOutput)
+	fmt.Println("Rhythm:", logic.FinalRhythmOutput)
 
 }
 

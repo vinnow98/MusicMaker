@@ -3,6 +3,7 @@ package logic
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"strings"
 	"time"
 )
@@ -20,42 +21,44 @@ import (
 //melancholy more down beats, average bars, 3/4 or 4/4, minor key
 // Neutral (worship statements)random beats, average bars,random time, major/minor equal
 
-type Rhythm struct {
-	beats         []int
-	noOfBars      int
-	timeSignature int
-}
+//type Rhythm struct {
+//	beats         []int
+//	noOfBars      int
+//	timeSignature int
+//}
 
-func Characteristics(c int) {
-	switch c {
-	default:
-		Neutral()
-	}
-}
+//func Characteristics(c int) {
+//	switch c {
+//	default:
+//		Neutral()
+//	}
+//}
 
-func Neutral() int {
-	timeSignatureList := []int{3, 4, 6}
-	rand.Seed(time.Now().UnixNano())
-	timeSignature := timeSignatureList[rand.Intn(len(timeSignatureList))]
-	switch timeSignature {
-	case 3:
-		fmt.Println("Time Signature:3/4")
-	case 4:
-		fmt.Println("Time Signature:4/4")
-	case 6:
-		fmt.Println("Time Signature:6/8")
-	}
-	return timeSignature
-}
+//func Neutral() int {
+//	timeSignatureList := []int{3, 4, 6}
+//	rand.Seed(time.Now().UnixNano())
+//	timeSignature := timeSignatureList[rand.Intn(len(timeSignatureList))]
+//	switch timeSignature {
+//	case 3:
+//		fmt.Println("Time Signature:3/4")
+//	case 4:
+//		fmt.Println("Time Signature:4/4")
+//	case 6:
+//		fmt.Println("Time Signature:6/8")
+//	}
+//	return timeSignature
+//}
 
 // Input the dummy data fromm the current psalms
 //1:   {5, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1},
 //1:   {3,1,2}
-var FinalRhythmOutput []int
-var line = "the La zy Dog Jumps o Ver the Big Brown Dog"
-var binaryLine []int
 
-func MainRhythmLogic() {
+var FinalRhythmOutput []int
+var binaryLine []int
+var noOfBeats = 6
+
+func MainRhythmLogic(line string) {
+
 	sliceLine := strings.Split(line, " ")
 	for _, element := range sliceLine {
 		if strings.ToUpper(element[0:1]) == element[0:1] {
@@ -66,11 +69,10 @@ func MainRhythmLogic() {
 	}
 	fmt.Println(binaryLine)
 	pickUpNote()
-	fmt.Println(FinalRhythmOutput)
+	checkBinaryLine()
 }
 
 func pickUpNote() {
-	noOfBeats := 6
 	zeroCount := 0
 	pickUpNote := []int{1, 2, 3, 4, 5, 6}
 	for _, element := range binaryLine {
@@ -88,7 +90,7 @@ func pickUpNote() {
 	FinalRhythmOutput = append(FinalRhythmOutput, pickUpNote[noOfBeats-zeroCount:]...)
 }
 
-func noteChecker() {
+func checkBinaryLine() {
 	if len(binaryLine) == 1 {
 		FinalRhythmOutput = append(FinalRhythmOutput, 1)
 	} else if len(binaryLine) == 0 {
@@ -99,33 +101,87 @@ func noteChecker() {
 		unimportantNotes()
 	}
 }
+func numberOfImportantNotes() int {
+	if noOfBeats == 6 {
+		return 2
+	} else if noOfBeats == 3 {
+		return 3
+	} else if noOfBeats == 4 {
+		return 4
+	}
+	return 0
+}
 
 func importantNote() {
-	if FinalOutput[len(FinalOutput)-1] <= 4 {
-		FinalOutput = append(FinalOutput, 1)
+	fmt.Println("printing important note")
+	if FinalRhythmOutput[len(FinalRhythmOutput)-1] >= 4 {
+		FinalRhythmOutput = append(FinalRhythmOutput, 1)
 		binaryLine = binaryLine[1:]
-		noteChecker()
-	}
-	//noOfBeats := 6
-	oneCount := 0
-	for _, element := range binaryLine {
-		if element == 1 {
-			oneCount++
-		} else {
-			break
+		fmt.Println(binaryLine)
+		checkBinaryLine()
+	} else {
+		rand.Seed(time.Now().UnixNano())
+		ranSelect := rand.Intn(numberOfImportantNotes())
+		if ranSelect == 0 {
+			FinalRhythmOutput = append(FinalRhythmOutput, 1)
+			binaryLine = binaryLine[1:]
+		} else if ranSelect == 1 {
+			FinalRhythmOutput = append(FinalRhythmOutput, 4)
+			binaryLine = binaryLine[1:]
 		}
-		if element == 0 {
-			return
-		}
+		checkBinaryLine()
 	}
-	//binaryLine = binaryLine[zeroCount:]
-	//fmt.Println(binaryLine)
-	//return pickUpNote[noOfBeats-zeroCount:]
 }
 
 func unimportantNotes() {
-
+	var unimportantNotes []int
+	zeroCount := 0
+	for _, element := range binaryLine {
+		if element == 0 {
+			zeroCount++
+		} else {
+			break
+		}
+	}
+	if zeroCount >= noOfBeats {
+		fmt.Printf("error: number of unimportant notes in a row cannot be more than %v", noOfBeats-1)
+		return
+	}
+	for i := 1; i <= zeroCount; i++ {
+		if FinalRhythmOutput[len(FinalRhythmOutput)-1] <= noOfBeats/2 {
+			noteList := []int{2, 2, 3, 3, 5, 6}
+			rand.Seed(time.Now().UnixNano())
+			note := noteList[rand.Intn(len(noteList))]
+			unimportantNotes = append(unimportantNotes, note)
+		} else {
+			noteList := []int{2, 3, 5, 5, 6, 6}
+			rand.Seed(time.Now().UnixNano())
+			note := noteList[rand.Intn(len(noteList))]
+			unimportantNotes = append(unimportantNotes, note)
+		}
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(unimportantNotes)))
+	binaryLine = binaryLine[zeroCount:]
+	fmt.Println(binaryLine)
+	FinalRhythmOutput = append(FinalRhythmOutput, unimportantNotes...)
+	checkBinaryLine()
 }
+
+//func removeDuplicateValues(intSlice []int) []int {
+//	keys := make(map[int]bool)
+//	list := []int{}
+//
+//	// If the key(values of the slice) is not equal
+//	// to the already present value in new slice (list)
+//	// then we append it. else we jump on another element.
+//	for _, entry := range intSlice {
+//		if _, value := keys[entry]; !value {
+//			keys[entry] = true
+//			list = append(list, entry)
+//		}
+//	}
+//	return list
+//}
 
 //	res1 := bytes.Replace(slice_1, []byte("E"), []byte("e"), 2)
 //for _, element := range binaryLine {
@@ -154,22 +210,6 @@ func unimportantNotes() {
 //	if element == 0 {
 //		rando++
 //	}
-//}
-
-//func removeDuplicateValues(intSlice []int) []int {
-//	keys := make(map[int]bool)
-//	list := []int{}
-//
-//	// If the key(values of the slice) is not equal
-//	// to the already present value in new slice (list)
-//	// then we append it. else we jump on another element.
-//	for _, entry := range intSlice {
-//		if _, value := keys[entry]; !value {
-//			keys[entry] = true
-//			list = append(list, entry)
-//		}
-//	}
-//	return list
 //}
 
 //func MainLogic() {
