@@ -8,14 +8,12 @@ import (
 	"time"
 )
 
-//number of bars
-//affected by style-
+//Pending Style
 //characteristics
 //1.Type of beats
 //2. Length of bars
 //3. Time signature
 //4.Type of key (favours which type?)
-//input what style you want
 //grand: more straight down beats, longer bars, 3/4 or 4/4 favours major key
 //hopeful/happy: more upbeats, average bar, favours a 6/8 beat, major key
 //melancholy more down beats, average bars, 3/4 or 4/4, minor key
@@ -113,7 +111,6 @@ func numberOfImportantNotes() int {
 }
 
 func importantNote() {
-	fmt.Println("printing important note")
 	if FinalRhythmOutput[len(FinalRhythmOutput)-1] >= 4 {
 		FinalRhythmOutput = append(FinalRhythmOutput, 1)
 		binaryLine = binaryLine[1:]
