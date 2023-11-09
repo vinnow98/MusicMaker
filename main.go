@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"music/logic"
+	"net/http"
 	"os"
 	"strings"
 
@@ -11,6 +12,9 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/",handlerFunc)
+	http.HandleFunc("/test",anotherHandler)
+	http.ListenAndServe("",nil)
 	fmt.Println("Instructions:")
 	fmt.Println("Type in the song lyrics. Syllables should be separated by a space. If the syllable is important, capitalise it.")
 	// the Lord is My she Pard There is No thing I shall Want
@@ -34,4 +38,12 @@ func main() {
 func length(line string) int {
 	sliceLyrics := strings.Split(line, " ")
 	return len(sliceLyrics)
+}
+
+func handlerFunc(w http.ResponseWriter , r *http.Request) {
+ fmt.Fprint(w, "<h1>Hello!</h1>")
+}
+
+func anotherHandler(w http.ResponseWriter , r *http.Request) {
+ fmt.Fprint(w, "<h1>this is another</h1>")
 }
